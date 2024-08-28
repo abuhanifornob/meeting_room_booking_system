@@ -4,9 +4,9 @@ import bcrypt from 'bcrypt';
 
 import config from '../../config';
 
-import { TUsers } from './user.interface';
+import { TUsers, UserModel } from './user.interface';
 
-const userSchema = new Schema<TUsers>(
+const userSchema = new Schema<TUsers, UserModel>(
   {
     name: {
       type: String,
@@ -15,6 +15,7 @@ const userSchema = new Schema<TUsers>(
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -66,4 +67,9 @@ userSchema.post('save', async function (doc, next) {
   next();
 });
 
-export const User = model<TUsers>('User', userSchema);
+// .... Static Method.....
+userSchema.statics.isUserExists = async function (email: string) {
+  const existsUser = await User.findOne({ email });
+  return existsUser;
+};
+export const User = model<TUsers, UserModel>('User', userSchema);
