@@ -57,6 +57,25 @@ const getAllBooking = async (
     next(err);
   }
 };
+const getMyBooking = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { userEmail } = req.user;
+    console.log(userEmail);
+    const data = await BookingServices.getMyBookingFromDB(userEmail);
+    res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: 'User bookings retrieved successfully',
+      data: data,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 const deleteBooking = async (
   req: Request,
   res: Response,
@@ -82,4 +101,5 @@ export const BookingController = {
   updateBooking,
   getAllBooking,
   deleteBooking,
+  getMyBooking,
 };

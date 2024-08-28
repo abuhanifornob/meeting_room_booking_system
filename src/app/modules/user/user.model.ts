@@ -21,6 +21,7 @@ const userSchema = new Schema<TUsers, UserModel>(
       type: String,
       max: [20, 'maximum password Character is 20'],
       min: [4, 'Password is minimum 4 Chareter type'],
+      select: 0,
     },
     phone: {
       type: String,

@@ -9,8 +9,8 @@ const validateRequet = (schema: AnyZodObject) => {
         body: req.body,
       });
       next();
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   };
 };

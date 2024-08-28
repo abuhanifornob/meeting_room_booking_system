@@ -9,8 +9,9 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json({
       success: true,
       statusCode: 200,
-      message: 'login successfully',
-      data: data,
+      message: 'User logged in successfully',
+      token: data.accessToken,
+      data: data.isUserExists,
     });
   } catch (err) {
     next(err);

@@ -1,4 +1,5 @@
 import { Room } from '../room/room.model';
+import { User } from '../user/user.model';
 
 import { TBooking } from './booking.interface';
 import { Booking } from './booking.model';
@@ -55,6 +56,18 @@ const getAllBookingFromDB = async () => {
     .populate('slots');
   return result;
 };
+const getMyBookingFromDB = async (email: string) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error('User Not Exits');
+  }
+
+  const result = await Booking.findOne({ user: user._id })
+    .populate('room')
+    .populate('user')
+    .populate('slots');
+  return result;
+};
 
 const deleteBookingFromDB = async (id: string) => {
   const result = await Booking.findByIdAndUpdate(
@@ -70,4 +83,5 @@ export const BookingServices = {
   updateBookingFormDB,
   getAllBookingFromDB,
   deleteBookingFromDB,
+  getMyBookingFromDB,
 };
